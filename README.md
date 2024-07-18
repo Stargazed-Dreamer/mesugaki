@@ -53,7 +53,8 @@ with Mesugaki():
    2. 综合各类异常，参见`doc\所有异常.txt`
 2. 增加
    1. 增加一个对应异常名称的方法，可结合正则表达式re进行字符串寻找。
-   2. 若需要结合正则表达式re进行字符串寻找，请在`ExceptionHandler.__init__`中增加一个类似`compile_Exception`的`re.compile`，再到方法中使用它。使用re推荐搭配python官方提供的[re测试工具](https://github.com/python/cpython/tree/3.11/Tools/demo/redemo.py)进行测试
+   2. 若需要结合正则表达式进行字符串寻找，请添加一个名称类似`compile_Exception_1`的`re.compile`对象，再到方法中使用它。
+      使用re推荐搭配python官方提供的[re测试工具](https://github.com/python/cpython/tree/3.11/Tools/demo/redemo.py)进行测试
    3. 在`ExceptionHandler.d_table`增加一个对应项
 3. 完成
 
@@ -66,3 +67,5 @@ with Mesugaki():
 *以下操作默认在`test_main.py`中进行*
 
 见文件中的example即可
+
+#### 感谢[灵感来源](https://www.bilibili.com/video/BV1gC4y1P7t3)！
