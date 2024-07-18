@@ -1,6 +1,6 @@
 import unittest
 #============================
-from src.mesugaki import Mesugaki
+from mesugaki import Mesugaki
 
 class Mesugaki(Mesugaki):
     def __init__(self, exception=None):
@@ -20,6 +20,8 @@ class Mesugaki(Mesugaki):
             string = self.d_table[errorType](errorText)
         return string
 
+Mesugaki.b_original = True
+
 class Test(unittest.TestCase):
     #example
     def test_Exception(self):
@@ -30,10 +32,6 @@ class Test(unittest.TestCase):
         with Mesugaki(MemoryError):
             10 ** 10 ** 10 ** 10 ** 10
     """
-    def test_ZeroDivisionError(self):
-        with Mesugaki(ZeroDivisionError):
-            1/0
-
     def test_AttributeError(self):
         with Mesugaki(AttributeError):
             "a".test
@@ -50,5 +48,9 @@ class Test(unittest.TestCase):
                 pass
             a()
   
+    def test_ZeroDivisionError(self):
+        with Mesugaki(ZeroDivisionError):
+            1/0
+
 if __name__ == '__main__':
     unittest.main()
