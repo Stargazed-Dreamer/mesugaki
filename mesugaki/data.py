@@ -34,15 +34,15 @@ class ExceptionHandler:
 
         if result := compile_AttributeError_1.match(text):
             former, latter = result.groups()
-            return f'笨 蛋 ！ 你的对象 "{former}" 可没有成员 "{latter}" 喔~  不信？你自己去问人家(ー`´ー)'
+            return f'笨蛋！ 你的对象 "{former}" 可没有成员 "{latter}" 喔~  不信？你自己去问人家(ー`´ー)'
 
-        return f'杂鱼~ 这个异常是你偷偷塞进来的吧~{heart()}: {text}'
+        return None
 
     def Exception(self, text):
-        return f'杂鱼~ 这个异常是你偷偷塞进来的吧~{heart()}: {text}'
+        return None
 
     def MemoryError(self, text):
-        return "笨 蛋 ！ 都溢出来了~"
+        return "笨蛋！ 都溢出来了~"
 
     def TypeError(self, text):
         compile_TypeError_1 = re.compile(
@@ -54,14 +54,14 @@ class ExceptionHandler:
 
         if result := compile_TypeError_1.match(text):
             name, num_former, num_latter = result.groups()
-            return f'笨 蛋 ！ {name} 已经塞…塞不下了啦！只能塞 {num_former} 个参数的它被你插入了 {num_latter} 个，变…变态！'
+            return f'笨蛋！ {name} 已经塞…塞不下了啦！只接受 {num_former} 个参数的它被你传入了 {num_latter} 个，变…变态！'
 
         elif result := compile_TypeError_2.match(text):
             name, num, *args = result.groups()
             s_args = " ".join([f'"{string}"' for string in args])
-            return f'笨 蛋 ！ {name} 感到空虚！现在还想要 {num} 个参数：{s_args}  好…好想要…'
+            return f'笨蛋！ {name} 感到空虚！现在还想要 {num} 个参数：{s_args}  好…好想要…'
 
-        return f'杂鱼~ 这个异常是你偷偷塞进来的吧~{heart()}:\t{text}'
+        return None
 
     def ZeroDivisionError(self, text):
         return "杂鱼~ 就连你的除数也是零吗~"
