@@ -50,8 +50,7 @@ class Mesugaki:
             #进入堆栈处理循环
             self.loop_main(l_error)
             #替换错误类别及提示
-            h = heart(0)
-            exceptionText = self.error(exc_type.__name__, str(exc_value)) + h
+            exceptionText = self.error(exc_type.__name__, str(exc_value))
             if self.b_original:
                 self.add(originalExceptionText)
             else:
@@ -76,13 +75,13 @@ class Mesugaki:
     def add(self, string=None):
         '''向异常捕获输出增加字符串'''
         if string is None:
-            print(f"笨 蛋 ！ 你还没决定要把什么插进来呢{self.heart()}~")
+            print(f"笨 蛋 ！ 你还没决定要把什么插进来呢{heart()}~")
             return
         try:
             #核心就这一行
             self.output += string + "\n"
         except AttributeError:
-            print(f"杂鱼~ 还想偷偷插进来{self.heart()}~")
+            print(f"杂鱼~ 还想偷偷插进来{heart()}~")
 
     def loop_main(self, l_error):
         '''异常堆栈处理循环，替换所有文件信息行'''

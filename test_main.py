@@ -3,30 +3,31 @@ import unittest
 from src.mesugaki import Mesugaki
 
 class Mesugaki(Mesugaki):
-    def __init__(self, exception):
+    def __init__(self, exception=None):
         super().__init__()
-        self.s_onlyException = exception.__name__
+        if exception is not None:
+            self.s_onlyException = exception.__name__
+        else:
+            self.s_onlyException = "undefined"
 
     def error(self, errorType, errorText):
         '''将错误信息重写'''
-        if errorType not in self.d_table or errorType != self.s_onlyException:
-            raise KeyError(f"没有犯 {self.s_onlyException} 错误？聪…聪明？才怪，还是笨蛋啦~")
+        if errorType != self.s_onlyException:
+            raise KeyError(f"没有犯 {self.s_onlyException} 错误？只是不小心犯下 {errorType} ？聪…聪明？才怪，还是笨蛋啦~")
+        elif errorType not in self.d_table:
+            raise KeyError(f"犯 {self.s_onlyException} 错误却不告诉我怎么处理？聪…聪明？才怪，还是笨蛋啦~")
         else:
             string = self.d_table[errorType](errorText)
-        if self.b_original:
-            #有显示原文的需求
-            string += "\n" + errorText
         return string
 
-class TestAddFunction(unittest.TestCase):
+class Test(unittest.TestCase):
     #example
     def test_Exception(self):
         with Mesugaki(Exception):
-            pass
+            raise Exception("example")
     """
     def test_MemoryError(self):
-        with Mesugaki() as baka:
-            baka.only(MemoryError)
+        with Mesugaki(MemoryError):
             10 ** 10 ** 10 ** 10 ** 10
     """
     def test_ZeroDivisionError(self):
@@ -36,6 +37,18 @@ class TestAddFunction(unittest.TestCase):
     def test_AttributeError(self):
         with Mesugaki(AttributeError):
             "a".test
+
+    def test_TypeError(self):
+        #1
+        with Mesugaki(TypeError):
+            def a(aa):
+                pass
+            a(1,1)
+        #2
+        with Mesugaki(TypeError):
+            def a(aa, bb):
+                pass
+            a()
   
 if __name__ == '__main__':
     unittest.main()
