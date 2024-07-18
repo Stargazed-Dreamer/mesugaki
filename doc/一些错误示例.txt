@@ -1,0 +1,79 @@
+division by zero
+Traceback (most recent call last):
+  File "H:\python\temp\temp2.py", line 5, in <module>
+    1/0
+    ~^~
+ZeroDivisionError: division by zero
+
+
+
+
+SyntaxWarning: 'str' object is not callable; perhaps you missed a comma?
+  ""()
+
+
+
+
+
+Traceback info: Traceback (most recent call last):
+  File "H:\python\temp\temp2.py", line 4, in <module>
+    1 / 0
+    ~~^~~
+ZeroDivisionError: division by zero
+
+
+
+
+
+  File "H:\python\mesugaki.py", line 96
+    continue
+    ^^^^^^^^
+SyntaxError: 'continue' not properly in loop
+
+
+
+
+
+Traceback (most recent call last):
+  File "H:\python\test.py", line 605, in <module>
+    main.UI_init(d_UI)
+  File "H:\python\test.py", line 541, in UI_init
+    1/0
+    ~^~
+ZeroDivisionError: division by zero
+Process Process-4:
+Traceback (most recent call last):
+  File "D:\managers.py", line 814, in _callmethod
+    conn = self._tls.connection
+           ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ForkAwareLocal' object has no attribute 'connection'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Lib\multiprocessing\process.py", line 314, in _bootstrap
+    self.run()
+  File "D:\Lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "H:\python\test.py", line 597, in _start_UI
+    _ui = MainUI(q_in, q_out, d_shared, updateEvent, g, _text)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "H:\python\UI.py", line 522, in __init__
+    self.init_recordInterface()
+  File "H:\python\UI.py", line 545, in init_recordInterface
+    self.recordInterface.wdgt_categorySwitcher.dataUpdate()
+  File "H:\python\UI.py", line 313, in dataUpdate
+    d_data = parent.main.d_IO["categories"].copy()
+             ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "<string>", line 2, in __getitem__
+  File "D:\Lib\multiprocessing\managers.py", line 818, in _callmethod
+    self._connect()
+  File "D:\Lib\multiprocessing\managers.py", line 805, in _connect
+    conn = self._Client(self._token.address, authkey=self._authkey)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Lib\multiprocessing\connection.py", line 517, in Client
+    c = PipeClient(address)
+        ^^^^^^^^^^^^^^^^^^^
+  File "D:\Lib\multiprocessing\connection.py", line 719, in PipeClient
+    _winapi.WaitNamedPipe(address, 1000)
+FileNotFoundError: [WinError 2] 系统找不到指定的文件。
