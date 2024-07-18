@@ -1,11 +1,7 @@
-from setuptools import setup, find_packages
+import setuptools
 
-setup(
+setuptools.setup(
     name="mesugaki",
-    version="1.0",
-    packages=find_packages(),
-    description="将python异常处理的信息转为雌小鬼和傲娇口气~",
-    url="https://github.com/StaryDreamer/mesugaki",
-    author="StaryDreamer",
-    license="Apache-2.0 license",
+    version="1.0.0",
+    packages=setuptools.find_packages(),
 )
