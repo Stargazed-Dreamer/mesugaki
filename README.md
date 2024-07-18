@@ -7,7 +7,7 @@
 ## 注意
 #### 本项目仅供娱乐，由于使报错复杂，不适合初学者使用
 #### 由于实现方式并未触及底层虚拟机，在多进程、多线程等条件下可能无法保证子进程、子线程能应用本项目
-#### 目前仅囊括了AttributeError、Exception、MemoryError、ZeroDivisionError以及TypeError的一部分信息，更多替换尚未完工，您可以考虑作出贡献
+#### 目前仅囊括了AttributeError、Exception、MemoryError、ZeroDivisionError以及TypeError的一部分信息，更多替换尚未完工，您可以考虑作出[贡献](https://github.com/StaryDreamer/mesugaki/blob/main/README.md#%E8%B4%A1%E7%8C%AE)
 ## 安装
 目前没有上传PyPI，请手动下载
 
