@@ -77,3 +77,5 @@ with Mesugaki():
 
 ## 感谢
 灵感来源于[此视频](https://www.bilibili.com/video/BV1gC4y1P7t3)
+
+另贴上评论区另一位大佬的[项目](https://github.com/Flotiarenor/Python-3.10.13)，修改的是底层CPython，大家也可以参观学习~
