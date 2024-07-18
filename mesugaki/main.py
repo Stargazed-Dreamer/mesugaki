@@ -13,9 +13,10 @@ from traceback import format_exception
 from .data import ExceptionHandler, heart
 #============================
 class Mesugaki:
+    b_original = False
+
     def __init__(self):
         self.d_table = ExceptionHandler().d_table
-        self.b_original = False
 
     def __enter__(self):
         '''上下文管理器进入时自动调用'''
@@ -51,10 +52,7 @@ class Mesugaki:
             self.loop_main(l_error)
             #替换错误类别及提示
             exceptionText = self.error(exc_type.__name__, str(exc_value))
-            if self.b_original:
-                self.add(originalExceptionText)
-            else:
-                self.add(exceptionText)
+            self.add(exceptionText)
             print(self.output)
         else:
             print(f"哼╯^╰  也……也就勉勉强强会玩蟒蛇嘛{heart(3)}~\n")
@@ -67,6 +65,8 @@ class Mesugaki:
             string = f"哎呀~ 人家才不是连这个错误都不认识呢~\n{errorType}: {errorText}"
         else:
             string = self.d_table[errorType](errorText)
+        if string is None:
+            string = f'杂鱼~ 这个异常是你偷偷塞进来的吧~{heart()}: {errorText}'
         if self.b_original:
             #有显示原文的需求
             string += "\n" + errorText
@@ -92,7 +92,10 @@ class Mesugaki:
                 self.add(line)
             else:
                 file, line, func = result.groups()
-                string = f'才…才不会告诉你…是 "{file}" 的第 {line} 行中 {func} 出…出现的问题'
+                if self.b_original:
+                    string = f'  File "{file}", Line {line}, in {func}'
+                else:
+                    string = f'才…才不会告诉你…是 "{file}" 的第 {line} 行中 {func} 出…出现的问题'
                 self.add(string)
 
 if __name__ == '__main__':
