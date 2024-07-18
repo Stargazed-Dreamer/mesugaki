@@ -4,7 +4,8 @@
 纯python实现，无第三方库
 
 仅支持中文
-
+#### 请注意，本项目仅为娱乐性质，不适合初学者使用
+#### 另请注意，目前仅囊括了AttributeError、Exception、MemoryError、ZeroDivisionError以及TypeError的一部分信息，更多替换尚未完工，您可以考虑加入战斗
 ## 安装
 目前没有上传PyPI，请手动下载
 
@@ -38,9 +39,9 @@ with Mesugaki():
 ## 贡献
 由于作者过懒，本项目有大量修改空间
 
-通常你会想增加一种异常处理方式
+有不少异常文本有待替换
 
-至少，你需要修改`src\data.py`文件
+想要加入，你至少需要修改`src\data.py`文件
 
 如果愿意，你还可以同步添加一个测试到`test_main.py`
 
