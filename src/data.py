@@ -64,4 +64,4 @@ class ExceptionHandler:
         return f'杂鱼~ 这个异常是你偷偷塞进来的吧~{heart()}:\t{text}'
 
     def ZeroDivisionError(self, text):
-        return "杂鱼~ 除数就和你抽卡的出货率一样呢~"
+        return "杂鱼~ 就连你的除数也是零吗~"
