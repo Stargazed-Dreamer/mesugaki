@@ -73,4 +73,4 @@ with Mesugaki():
 根据[Apache 2.0 license](https://github.com/gaogaotiantian/viztracer/blob/master/LICENSE)的条款分发
 
 ## 感谢
-[灵感来源](https://www.bilibili.com/video/BV1gC4y1P7t3)！
+灵感来源于[此视频](https://www.bilibili.com/video/BV1gC4y1P7t3)
