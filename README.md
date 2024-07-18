@@ -43,7 +43,7 @@ with Mesugaki():
 
 有不少异常文本有待替换
 
-想要加入，你至少需要修改`src\data.py`文件
+想要加入，你至少需要修改`mesugaki\data.py`文件
 
 如果愿意，你还可以同步添加一个测试到`test_main.py`
 
@@ -51,7 +51,7 @@ with Mesugaki():
 
 ### data.py修改
 
-*以下操作默认在`src\data.py`中进行*
+*以下操作默认在`mesugaki\data.py`中进行*
 
 1. 准备
    1. 查看`ExceptionHandler.d_table`
@@ -68,8 +68,6 @@ with Mesugaki():
 如果你还有兴趣，可以协助增加一个测试，操作见下方
 
 ### test_main.py修改
-
-*以下操作默认在`test_main.py`中进行*
 
 见文件中的example即可
 
