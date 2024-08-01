@@ -5,13 +5,11 @@
 
 仅支持中文
 ## 注意
-#### 本项目仅供娱乐，由于使报错复杂，不适合初学者使用
+#### 本项目仅供娱乐，由于使报错复杂，不适合python初学者使用
 #### 由于实现方式并未触及底层虚拟机，在多进程、多线程等条件下可能无法保证子进程、子线程能应用本项目
 #### 目前仅囊括了AttributeError、Exception、MemoryError、ZeroDivisionError以及TypeError的一部分信息，更多替换尚未完工，您可以考虑作出[贡献](https://github.com/StaryDreamer/mesugaki/blob/main/README.md#%E8%B4%A1%E7%8C%AE)
 ## 安装
-目前没有上传PyPI，请手动下载
-
-或使用release进行安装
+目前没有上传PyPI，请使用release进行安装
 
 ## 使用
 1. 常规使用上下文管理器用法
@@ -38,7 +36,7 @@ with Mesugaki():
 杂鱼~ 就连你的除数也是零吗~
 ~~~
 
-2. 采用更易阅读的输出格式
+2. 采用更常规的输出格式
 ```python
 from mesugaki import Mesugaki
 
@@ -75,7 +73,9 @@ with Mesugaki():
 
 如果愿意，你还可以同步添加一个测试到`test_main.py`
 
-#### 但请注意，添加的各个异常处理方法、键等，一定要按照字母表的顺序排列
+`test_main.py`文件开头提供的个人风格仅供参考，代码风格无强制要求
+
+#### 注意！添加的各个异常处理方法、键等，请按照字母表的顺序排列
 
 ### data.py修改
 
@@ -83,7 +83,7 @@ with Mesugaki():
 
 1. 准备
    1. 查看`ExceptionHandler.d_table`
-   2. 综合各类异常，参见`doc\所有异常.txt`
+   2. 检查还有什么异常可以添加，异常大全参见`doc\所有异常.txt`
 2. 增加
    1. 增加一个对应异常名称的方法，可结合正则表达式re进行字符串寻找。
    2. 若需要结合正则表达式进行字符串寻找，请添加一个名称类似`compile_Exception_1`的`re.compile`对象，再到方法中使用它。
@@ -91,13 +91,11 @@ with Mesugaki():
    3. 在`ExceptionHandler.d_table`增加一个对应项
 3. 完成
 
-这样就可以pull request了！
-
 如果你还有兴趣，可以协助增加一个测试，操作见下方
 
 ### test_main.py修改
 
-见文件中的example即可
+详见文件中的example
 
 ## 许可证
 
@@ -106,4 +104,4 @@ with Mesugaki():
 ## 感谢
 灵感来源于[此视频](https://www.bilibili.com/video/BV1gC4y1P7t3)
 
-另贴上评论区另一位大佬的[项目](https://github.com/Flotiarenor/Python-3.10.13)，修改的是底层CPython，能够规避多进程不兼容的问题，大家也可以参观学习~
+另贴上评论区另一位大佬的[项目](https://github.com/Flotiarenor/Python-3.10.13)，修改的是底层CPython，能够规避多进程不兼容的问题
