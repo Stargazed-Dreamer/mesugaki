@@ -1,107 +1,109 @@
 # mesugaki
-将python异常处理的信息转为雌小鬼和傲娇口气\~
 
-纯python实现，无第三方库
-
+将Python异常处理的信息转为雌小鬼和傲娇口气~
+纯Python实现，无第三方库
 仅支持中文
 ## 注意
-#### 本项目仅供娱乐，由于使报错复杂，不适合python初学者使用
+#### 本项目仅供娱乐，由于使报错复杂，不适合Python初学者使用
 #### 由于实现方式并未触及底层虚拟机，在多进程、多线程等条件下可能无法保证子进程、子线程能应用本项目
-#### 目前仅囊括了AttributeError、Exception、MemoryError、ZeroDivisionError以及TypeError的一部分信息，更多替换尚未完工，您可以考虑作出[贡献](https://github.com/StaryDreamer/mesugaki/blob/main/README.md#%E8%B4%A1%E7%8C%AE)
+#### 目前已囊括大部分Python内置异常类型，您可以考虑作出[贡献](#贡献)
 ## 安装
-目前没有上传PyPI，请使用release进行安装
-
+### 从whl安装
+```bash
+pip install mesugaki-1.3.0-py3-none-any.whl
+```
+### 从源码安装
+```bash
+git clone https://github.com/Stargazed-Dreamer/mesugaki
+cd mesugaki
+pip install .
+```
 ## 使用
-1. 常规使用上下文管理器用法
+### 1. 上下文管理器用法
 ```python
 from mesugaki import Mesugaki
-
-with Mesugaki():
-    ...
-```
-示例：
-```python
-from mesugaki import Mesugaki
-
 with Mesugaki():
     1/0
 ```
-输出：
-~~~
+示例输出：
+```
 杂~鱼🧡！让人家看看哥哥的蟒蛇怎么样了~
 笨 蛋 ！ 蟒蛇都能写错~
-才…才不会告诉你…是 "<temp>" 的第 4 行中 <module> 出…出现的问题
+才…才不会告诉你…是 "<stdin>" 的第 3 行中 <module> 出…出现的问题
     1/0
-    ~^~
 杂鱼~ 就连你的除数也是零吗~
-~~~
-
-2. 采用更常规的输出格式
-```python
-from mesugaki import Mesugaki
-
-Mesugaki.b_original = True
-
-with Mesugaki():
-    ...
 ```
-
-示例：
+### 2. 显示原始文件路径（此时支持IDE错误跳转）
 ```python
 from mesugaki import Mesugaki
-
-Mesugaki.b_original = True
-
+Mesugaki.use_original_location_hint = True
 with Mesugaki():
     1/0
 ```
-输出：
-~~~
+示例输出：
+```
 杂~鱼🧡！让人家看看哥哥的蟒蛇怎么样了~
 笨 蛋 ！ 蟒蛇都能写错~
-  File "<temp>", Line 53, in <module>
+  File "<stdin>", line 3, in <module>
     1/0
-    ~^~
 杂鱼~ 就连你的除数也是零吗~
-~~~
+```
+### 3. 全局快速启用
+```python
+from mesugaki import alwaysMesugaki
+# 启用全局钩子
+1/0   # 这里的错误会被mesugaki处理
+```
+停止全局钩子：
+```python
+from mesugaki import alwaysMesugaki
+
+# 方法一：import stopMesugaki
+from mesugaki import stopMesugaki
+# 方法二：调用stop方法
+alwaysMesugaki.stop()
+```
+### 4.调试模式
+```python
+from mesugaki import alwaysMesugaki
+Mesugaki.test_mode = True
+1/0
+```
+示例输出：
+```
+杂~鱼🧡！让人家看看哥哥的蟒蛇怎么样了~
+笨 蛋 ！ 蟒蛇都能写错~
+  才…才不会告诉你…是 "<stdin>" 的第 3 行中 <module> 出…出现的问题
+    1/0
+杂鱼~ 就连你的除数也是零吗~
+
+Original exception was:
+Traceback (most recent call last):
+  File "<stdin>", line 3, in <module>
+    1/0
+ZeroDivisionError: division by zero
+```
 ## 贡献
-由于作者过懒，本项目有大量修改空间
-
-有不少异常文本有待替换
-
-想要加入，你至少需要修改`mesugaki\data.py`文件
-
-如果愿意，你还可以同步添加一个测试到`test_main.py`
-
-`test_main.py`文件开头提供的个人风格仅供参考，代码风格无强制要求
-
-#### 注意！添加的各个异常处理方法、键等，请按照字母表的顺序排列
-
-### data.py修改
-
-*以下操作默认在`mesugaki\data.py`中进行*
-
-1. 准备
-   1. 查看`ExceptionHandler.d_table`
-   2. 检查还有什么异常可以添加，异常大全参见`doc\所有异常.txt`
-2. 增加
-   1. 增加一个对应异常名称的方法，可结合正则表达式re进行字符串寻找。
-   2. 若需要结合正则表达式进行字符串寻找，请添加一个名称类似`compile_Exception_1`的`re.compile`对象，再到方法中使用它。
-      使用re推荐搭配python官方提供的[re测试工具](https://github.com/python/cpython/tree/3.11/Tools/demo/redemo.py)进行测试
-   3. 在`ExceptionHandler.d_table`增加一个对应项
-3. 完成
-
-如果你还有兴趣，可以协助增加一个测试，操作见下方
-
-### test_main.py修改
-
-详见文件中的example
-
+欢迎贡献！目前需要改进的地方：
+1. 添加更多细分异常类型的处理
+2. 优化错误信息解析
+3. 添加多语言支持
+##### 添加新的异常处理
+1. 在 `mesugaki/handlers` 目录下创建新文件或修改现有文件
+2. 使用 `register_exception` 装饰器注册处理函数：
+   ```python
+   from mesugaki.data import register_exception
+   @register_exception("YourException")
+   def handle_your_exception(text):
+       return "你的自定义错误信息"
+   ```
+3. 在 `test_main.py` 中添加测试用例
+### 运行测试
+```bash
+python -m unittest test_main.py
+```
 ## 许可证
-
-根据[Apache 2.0 license](https://github.com/gaogaotiantian/viztracer/blob/master/LICENSE)的条款分发
-
+根据 [Apache 2.0 license](https://github.com/gaogaotiantian/viztracer/blob/master/LICENSE) 的条款分发
 ## 其它
-灵感来源于[此视频](https://www.bilibili.com/video/BV1gC4y1P7t3)
-
-另贴上评论区另一位大佬的[项目](https://github.com/Flotiarenor/Python-3.10.13)，修改的是底层CPython，能够规避多进程不兼容的问题
+灵感来源于 [此视频](https://www.bilibili.com/video/BV1gC4y1P7t3)
+另贴上评论区另一位大佬的 [项目](https://github.com/Flotiarenor/Python-3.10.13)，修改的是底层CPython，能够规避多进程不兼容的问题
