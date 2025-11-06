@@ -12,12 +12,7 @@ from time import time
 
 s_hearts = "❤🧡💛💚💙💜"
 
-def heart(index=None):
-    '''在爱心表里随机或者指定一个爱心返回'''
-    if index is None:
-        seed = time()
-        index = int(sha512(str(seed).encode('utf-8')).hexdigest(), base=16) % len(s_hearts)
-    return s_hearts[index]
+
 
 class ExceptionHandler:
     def __init__(self):

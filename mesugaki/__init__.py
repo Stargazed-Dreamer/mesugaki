@@ -1,24 +1,77 @@
+import sys
+import re
+from traceback import format_exception
 from .main import Mesugaki
 
+__all__ = ["Mesugaki", "alwaysMesugaki", "stopMesugaki"]
+
+_installed = False
+_original_excepthook = None
+
+
+def _install_global_hook():
+    global _installed, _original_excepthook
+    if not _installed:
+        _original_excepthook = sys.excepthook
+
+        def _global_hook(exc_type, exc_value, exc_tb):
+            l_traceback = format_exception(exc_type, exc_value, exc_tb)
+            m = Mesugaki()
+            m.output = ""
+            m.compile_fileLine = re.compile(' *File "(.+)", line ([0-9]+), in (.+)')
+
+            # 复制 main.py 中的处理逻辑
+            m.add(f"笨 蛋 ！ 蟒蛇都能写错~")
+
+            # 堆栈字符串列表预处理
+            l_error = []
+            for string in l_traceback:
+                l_lines = string.split("\n")
+                if "" in l_lines:
+                    l_lines.remove("")
+                l_error += l_lines
+
+            assert l_error.pop(0) == "Traceback (most recent call last):"
+            originalExceptionText = l_error.pop(-1)
+
+            m.loop_main(l_error)
+            exceptionText = m.error(exc_type.__name__, str(exc_value))
+            m.add(exceptionText)
+
+            print(m.output)
+
+        sys.excepthook = _global_hook
+        _installed = True
+
+
+def _uninstall_global_hook():
+    global _installed, _original_excepthook
+    if _installed and _original_excepthook is not None:
+        sys.excepthook = _original_excepthook
+        _installed = False
+
+
+# ==================== 延迟初始化控制 ====================
 class _AlwaysMesugaki:
-    """只要被 import 一次，就自动把 Mesugaki 钩到 sys.excepthook 上，等同于『with Mesugaki():』永不过期。"""
-    _installed = False
-
     def __init__(self):
-        # 防止重复安装
-        if _AlwaysMesugaki._installed:
-            return
-        _AlwaysMesugaki._installed = True
+        _install_global_hook()
 
-        # 把 Mesugaki 上下文管理器永久激活
-        self._mgr = Mesugaki()
-        self._mgr.__enter__()
+    def __del__(self):
+        _uninstall_global_hook()
 
-        # 进程正常退出时再清理，防止上下文管理器报警告
-        import atexit
-        atexit.register(self._cleanup)
+    def stop(self):
+        self.__del__()
 
-    def _cleanup(self):
-        self._mgr.__exit__(None, None, None)
+def _get_always_mesugaki():
+    if not hasattr(__name__, "alwaysMesugaki"):
+        global alwaysMesugaki
+        alwaysMesugaki = _AlwaysMesugaki()
+    return alwaysMesugaki
 
-alwaysMesugaki = _AlwaysMesugaki()
+def __getattr__(name):
+    if name == "alwaysMesugaki":
+        return _get_always_mesugaki()
+    elif name == "stopMesugaki":
+        _uninstall_global_hook()
+        return None
+    raise AttributeError(f"module {__name__} has no attribute {name}")

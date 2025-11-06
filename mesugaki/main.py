@@ -28,7 +28,7 @@ class Mesugaki:
         '''上下文管理器退出时自动调用'''
         # exc_type, exc_val, exc_tb 分别代表异常类型、异常值和追踪信息
         if exc_type is not None:
-            exc_type, exc_value, exc_traceback = exc_info()
+            _, exc_value, exc_traceback = exc_info()
             # 格式化堆栈跟踪
             l_traceback = format_exception(exc_type, exc_value, exc_traceback)
             #初始化
@@ -102,6 +102,4 @@ if __name__ == '__main__':
     # 使用with语句测试上下文管理器
     with Mesugaki():
         # 可以在这里引发异常来测试__exit__方法中的异常处理
-        #raise Exception("Just testing")
-        1/0
-        #pass
+        raise Exception("Just testing")
