@@ -1,6 +1,7 @@
 from mesugaki import Mesugaki
 Mesugaki.use_original_location_hint = True
 Mesugaki.use_original_location_hint = False
+Mesugaki.test_mode = True
 
 
 def a():
@@ -13,7 +14,7 @@ with Mesugaki():
 	1
 
 from mesugaki import alwaysMesugaki
-from mesugaki import stopMesugaki
+#from mesugaki import stopMesugaki
 #alwaysMesugaki.stop()
 a()
 '''

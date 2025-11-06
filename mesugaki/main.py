@@ -18,6 +18,7 @@ mode_mesugaki = 1
 
 class Mesugaki:
     use_original_location_hint = False
+    test_mode = False
 
     def __init__(self):
         self.d_table = exception_handler.d_table
@@ -65,6 +66,9 @@ class Mesugaki:
         exceptionText = self.error(exc_type.__name__, str(exc_value))
         self.add(exceptionText)
         self.format_output()
+        if self.test_mode:
+            print("\nOriginal exception was:")
+            print("".join(l_traceback))
 
     def error(self, errorType, errorText):
         '''将错误信息重写'''
@@ -84,8 +88,8 @@ class Mesugaki:
             if mode == mode_original:
                 print(contect, file=stderr)
             elif mode == mode_mesugaki:
-                print(contect)
                 #print(contect, file=stderr)
+                print(contect)
         self.l_output = []
 
     def add(self, string=None, mode=mode_mesugaki):
