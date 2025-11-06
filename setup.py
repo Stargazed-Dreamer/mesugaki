@@ -2,6 +2,6 @@ import setuptools
 
 setuptools.setup(
     name="mesugaki",
-    version="1.0.0",
-    packages=setuptools.find_packages(),
+    version="1.3.0",
+    packages=["mesugaki"],
 )
