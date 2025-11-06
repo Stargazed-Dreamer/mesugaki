@@ -29,7 +29,8 @@ class _ExceptionHandler:
         for method_name in dir(self):
             if method_name.startswith("_handle_"):
                 exception_name = method_name[8:]  # 去掉 "_handle_" 前缀
-                self.register(exception_name, getattr(self, method_name))
+                if exception_name not in self.d_table:
+                    self.register(exception_name, getattr(self, method_name))
 
 class ExceptionHandler(_ExceptionHandler):
     """异常处理器，提供正常的异常处理模式"""

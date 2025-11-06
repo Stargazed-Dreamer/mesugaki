@@ -10,7 +10,7 @@ import re
 from sys import exc_info, stderr
 from traceback import format_exception
 #============================
-from .data import ExceptionHandler, heart
+from .data import exception_handler, heart
 #============================
 # 输出行类型
 mode_original = 0
@@ -20,7 +20,7 @@ class Mesugaki:
     use_original_location_hint = False
 
     def __init__(self):
-        self.d_table = ExceptionHandler().d_table
+        self.d_table = exception_handler.d_table
         self.l_output = []
         self.compile_fileLine = re.compile(' *File "(.+)", line ([0-9]+), in (.+)')
 
