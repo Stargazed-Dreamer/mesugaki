@@ -1,8 +1,20 @@
 from mesugaki import Mesugaki
+Mesugaki.use_original_location_hint = True
+Mesugaki.use_original_location_hint = False
+
+
+def a():
+	def b():
+		1/0
+	b()
+
 with Mesugaki():
-	1/0
+	#a()
+	1
 
 from mesugaki import alwaysMesugaki
-#alwaysMesugaki.stop()
 from mesugaki import stopMesugaki
-1/0
+#alwaysMesugaki.stop()
+a()
+'''
+1/0'''

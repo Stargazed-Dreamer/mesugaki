@@ -20,7 +20,7 @@ class Mesugaki(Mesugaki):
             string = self.d_table[errorType](errorText)
         return string
 
-#Mesugaki.b_original = True
+#Mesugaki.use_original_location_hint = True
 
 class Test(unittest.TestCase):
     #example

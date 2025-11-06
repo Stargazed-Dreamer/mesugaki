@@ -7,16 +7,22 @@
 #函数有时会在前面用下划线区分属于哪个功能区
 #============================
 import re
-from sys import exc_info
+from sys import exc_info, stderr
 from traceback import format_exception
 #============================
 from .data import ExceptionHandler, heart
 #============================
+# 输出行类型
+mode_original = 0
+mode_mesugaki = 1
+
 class Mesugaki:
-    b_original = False
+    use_original_location_hint = False
 
     def __init__(self):
         self.d_table = ExceptionHandler().d_table
+        self.l_output = []
+        self.compile_fileLine = re.compile(' *File "(.+)", line ([0-9]+), in (.+)')
 
     def __enter__(self):
         '''上下文管理器进入时自动调用'''
@@ -29,35 +35,36 @@ class Mesugaki:
         # exc_type, exc_val, exc_tb 分别代表异常类型、异常值和追踪信息
         if exc_type is not None:
             _, exc_value, exc_traceback = exc_info()
-            # 格式化堆栈跟踪
             l_traceback = format_exception(exc_type, exc_value, exc_traceback)
-            #初始化
-            self.output = ""
-            self.compile_fileLine = re.compile(' *File "(.+)", line ([0-9]+), in (.+)')
-            #堆栈字符串列表预处理
-            #去掉换行
-            l_error = []
-            for string in l_traceback:
-                l_lines = string.split("\n")
-                if "" in l_lines:
-                    l_lines.remove("")
-                l_error += l_lines
-            #第一句应当是这个
-            assert l_error.pop(0) == "Traceback (most recent call last):"
-            #去掉错误类别及提示
-            originalExceptionText = l_error.pop(-1)
-            #乐
-            self.add(f"笨 蛋 ！ 蟒蛇都能写错~")
-            #进入堆栈处理循环
-            self.loop_main(l_error)
-            #替换错误类别及提示
-            exceptionText = self.error(exc_type.__name__, str(exc_value))
-            self.add(exceptionText)
-            print(self.output)
+            self.handle_output(exc_type, exc_value, l_traceback)
         else:
             print(f"哼╯^╰  也……也就勉勉强强会玩蟒蛇嘛{heart(3)}~\n")
         # 如果为False，则异常会被正常抛出；如果为True，则异常会被忽略
         return True
+
+    def handle_output(self, exc_type, exc_value, l_traceback):
+        """通用输出函数"""
+        # 格式化堆栈跟踪
+        #堆栈字符串列表预处理
+        #去掉换行
+        l_error = []
+        for string in l_traceback:
+            l_lines = string.split("\n")
+            if "" in l_lines:
+                l_lines.remove("")
+            l_error += l_lines
+        #第一句应当是这个
+        assert l_error.pop(0) == "Traceback (most recent call last):"
+        #去掉错误类别及提示
+        originalExceptionText = l_error.pop(-1)
+        #乐
+        self.add(f"笨 蛋 ！ 蟒蛇都能写错~")
+        #进入堆栈处理循环
+        self.loop_main(l_error)
+        #替换错误类别及提示
+        exceptionText = self.error(exc_type.__name__, str(exc_value))
+        self.add(exceptionText)
+        self.format_output()
 
     def error(self, errorType, errorText):
         '''将错误信息重写'''
@@ -67,19 +74,28 @@ class Mesugaki:
             string = self.d_table[errorType](errorText)
         if string is None:
             string = f'杂鱼~ 这个异常是你偷偷塞进来的吧~{heart()}: {errorText}'
-        if self.b_original:
+        if self.use_original_location_hint:
             #有显示原文的需求
-            string += "\n" + errorText
+            string += "\n这也不会？给你看看提示吧~  →" + errorText
         return string
 
-    def add(self, string=None):
+    def format_output(self):
+        for contect, mode in self.l_output:
+            if mode == mode_original:
+                print(contect, file=stderr)
+            elif mode == mode_mesugaki:
+                print(contect)
+                #print(contect, file=stderr)
+        self.l_output = []
+
+    def add(self, string=None, mode=mode_mesugaki):
         '''向异常捕获输出增加字符串'''
         if string is None:
             print(f"笨 蛋 ！ 你还没决定要把什么插进来呢{heart()}~")
             return
         try:
             #核心就这一行
-            self.output += string + "\n"
+            self.l_output.append((string, mode))
         except AttributeError:
             print(f"杂鱼~ 还想偷偷插进来{heart()}~")
 
@@ -92,11 +108,12 @@ class Mesugaki:
                 self.add(line)
             else:
                 file, line, func = result.groups()
-                if self.b_original:
-                    string = f'  File "{file}", Line {line}, in {func}'
+                if self.use_original_location_hint:
+                    string = f'  File "{file}", line {line}, in {func}'
+                    self.add(string, mode_original)
                 else:
                     string = f'才…才不会告诉你…是 "{file}" 的第 {line} 行中 {func} 出…出现的问题'
-                self.add(string)
+                    self.add(string, mode_mesugaki)
 
 if __name__ == '__main__':
     # 使用with语句测试上下文管理器

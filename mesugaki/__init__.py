@@ -1,13 +1,32 @@
 import sys
-import re
 from traceback import format_exception
 from .main import Mesugaki
 
 __all__ = ["Mesugaki", "alwaysMesugaki", "stopMesugaki"]
 
+# ========================================
+# 自动载入覆盖的错误提示
+import importlib
+from pathlib import Path
+
+def _load_handlers():
+    """自动加载handlers目录下的所有模块"""
+    handlers_dir = Path(__file__).parent / "handlers"
+    if not handlers_dir.exists():
+        return
+    
+    for module_file in handlers_dir.glob("*.py"):
+        if module_file.name.startswith("_"):
+            continue
+        module_name = f"mesugaki.handlers.{module_file.stem}"
+        importlib.import_module(module_name)
+# 在包初始化时加载
+_load_handlers()
+
+# ========================================
+# 延迟初始化控制 - 用于实现import alwaysMesugaki即启动
 _installed = False
 _original_excepthook = None
-
 
 def _install_global_hook():
     global _installed, _original_excepthook
@@ -17,32 +36,10 @@ def _install_global_hook():
         def _global_hook(exc_type, exc_value, exc_tb):
             l_traceback = format_exception(exc_type, exc_value, exc_tb)
             m = Mesugaki()
-            m.output = ""
-            m.compile_fileLine = re.compile(' *File "(.+)", line ([0-9]+), in (.+)')
-
-            # 复制 main.py 中的处理逻辑
-            m.add(f"笨 蛋 ！ 蟒蛇都能写错~")
-
-            # 堆栈字符串列表预处理
-            l_error = []
-            for string in l_traceback:
-                l_lines = string.split("\n")
-                if "" in l_lines:
-                    l_lines.remove("")
-                l_error += l_lines
-
-            assert l_error.pop(0) == "Traceback (most recent call last):"
-            originalExceptionText = l_error.pop(-1)
-
-            m.loop_main(l_error)
-            exceptionText = m.error(exc_type.__name__, str(exc_value))
-            m.add(exceptionText)
-
-            print(m.output)
+            m.handle_output(exc_type, exc_value, l_traceback)
 
         sys.excepthook = _global_hook
         _installed = True
-
 
 def _uninstall_global_hook():
     global _installed, _original_excepthook
@@ -50,8 +47,6 @@ def _uninstall_global_hook():
         sys.excepthook = _original_excepthook
         _installed = False
 
-
-# ==================== 延迟初始化控制 ====================
 class _AlwaysMesugaki:
     def __init__(self):
         _install_global_hook()
