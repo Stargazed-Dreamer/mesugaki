@@ -20,7 +20,7 @@ class Mesugaki(Mesugaki):
             string = self.d_table[errorType](errorText)
         return string
 
-Mesugaki.b_original = True
+#Mesugaki.b_original = True
 
 class Test(unittest.TestCase):
     #example
@@ -53,4 +53,5 @@ class Test(unittest.TestCase):
             1/0
 
 if __name__ == '__main__':
-    unittest.main()
+    #unittest.main()
+    1/0
