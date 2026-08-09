@@ -113,7 +113,7 @@ python -m unittest test_main.py
 ```
 
 ## 许可证
-根据 [Apache 2.0 license](https://github.com/gaogaotiantian/viztracer/blob/master/LICENSE) 的条款分发
+根据 [Apache 2.0 license](https://www.apache.org/licenses/LICENSE-2.0) 的条款分发
 
 ## 其它
 灵感来源于 [此视频](https://www.bilibili.com/video/BV1gC4y1P7t3)
